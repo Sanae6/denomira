@@ -1,4 +1,4 @@
-import Message from "../message.ts";
+import Message from "../util/message.ts";
 import { readRpc, Rpc, writeRpc } from "./gameRpc.ts";
 
 enum DataTypes {

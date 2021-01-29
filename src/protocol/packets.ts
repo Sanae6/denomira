@@ -1,6 +1,6 @@
 import { GameData, readGameData, writeGameData } from "./gameData.ts";
 import { GameMap, GameOptions, readGameOptions, writeGameOptions } from "./gameOptions.ts";
-import Message from "../message.ts";
+import Message from "../util/message.ts";
 import DisconnectReason, { Reasons } from "./disconnect.ts";
 import { AlterGameTag, GameListing, GameListingOld, GameOverReason, MasterServer } from "./extraTypes.ts";
 

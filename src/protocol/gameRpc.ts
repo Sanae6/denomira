@@ -1,6 +1,6 @@
 // // incomplete
 
-// import Message from "../message.ts";
+// import Message from "../util/message.ts";
 // import { GameOptions, readGameOptions, writeGameOptions } from "./gameOptions.ts";
 // import { PlayerInfo, readPlayerInfo, writePlayerInfo } from "./playerInfo.ts";
 
