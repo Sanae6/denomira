@@ -108,24 +108,24 @@ export function writeHazelPacket(packet: HazelPacket): Message {
     case SendOption.Reliable:
       return new Message()
         .writeU8(SendOption.Reliable)
-        .writeU16(packet.nonce)
+        .writeU16BE(packet.nonce)
         .writeBytes(writeAllPackets(packet.data));
     case SendOption.Hello:
       return new Message()
         .writeU8(SendOption.Hello)
-        .writeU16(packet.nonce)
+        .writeU16BE(packet.nonce)
         .writeU8(packet.hazelVersion)
         .write32(packet.clientVersion)
         .writeString(packet.name);
     case SendOption.Acknowledge:
       return new Message()
         .writeU8(SendOption.Acknowledge)
-        .writeU16(packet.nonce)
+        .writeU16BE(packet.nonce)
         .writeU8(packet.missingPackets);
     case SendOption.Ping:
       return new Message()
         .writeU8(SendOption.Ping)
-        .writeU16(packet.nonce)
+        .writeU16BE(packet.nonce)
     // deno-lint-ignore no-case-declarations
     case SendOption.Disconnect:
       const msg = new Message()

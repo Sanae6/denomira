@@ -12,7 +12,6 @@ for await (const ba of socket) {
   const buf = new Message(ba[0]);
   const addr = ba[1] as Deno.NetAddr;
   if (addr.hostname == server.hostname && addr.port == server.port) {
-    
     const packet = readAllPackets(buf, false);
     console.log("S->C", packet,"\n", buf.toString());
     socket.send(ba[0], addr);
