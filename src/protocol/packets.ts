@@ -233,6 +233,65 @@ export function writePacket(packet: Packet): Message {
         .writeU8(packet.reason)
         .writeBoolean(packet.showAd)
       .endMessage()
+    case Packets.AlterGame:
+      return message.startMessage(10)
+        .write32(packet.code)
+        .writeU8(packet.tag)
+        .writeU8(packet.value)
+      .endMessage();
+    case Packets.KickPlayer:
+      return message.startMessage(11)
+        .write32(packet.code)
+        .writeUPacked(packet.clientId)
+        .writeBoolean(packet.banned)
+        .writeBytes(packet.reason ? packet.reason.toMessage() : new Message())
+      .endMessage();
+    case Packets.WaitForHost:
+      return message.startMessage(11)
+        .write32(packet.code)
+        .writeU32(packet.clientId)
+      .endMessage();
+    case Packets.Redirect:
+      return message.startMessage(11)
+        .writeAddress(packet.host)
+        .writeU16(packet.port)
+      .endMessage();
+    case Packets.ReselectServers:
+      return message.startMessage(11)
+        .writeU8(1)
+        .writeList(packet.servers, server => 
+          new Message().startMessage()
+            .writeString(server.name)
+            .writeAddress(server.host)
+            .writeU16(server.port)
+            .writeUPacked(server.clients)
+          .endMessage()
+        )
+      .endMessage();
+    case Packets.GetGameListRequest:
+      return message.startMessage(16)
+        .writePacked(packet.unknown)
+        .writeBytes(writeGameOptions(packet.options))
+      .endMessage();
+    case Packets.GetGameListResponse:
+      message.startMessage(16)
+      if (packet.counts) message.startMessage(1)
+        .writeBytes(new Uint8Array(packet.counts))
+      .endMessage();
+      if (packet.listings) message.startMessage(0)
+        .writeList(packet.listings, x => new Message().startMessage()
+          .writeAddress(x.host)
+          .writeU16(x.port)
+          .write32(x.code)
+          .writeString(x.name)
+          .writeU8(x.players)
+          .writeUPacked(x.age)
+          .writeU8(x.map)
+          .writeU8(x.impostors)
+          .writeU8(x.maxPlayers)
+        .endMessage())
+      .endMessage();
+      return message;
     default:
       throw new Error("Unhandled packet type: " + Packets[packet.type])
   }
@@ -402,6 +461,11 @@ export function readPacket(message: Message, fromClient: boolean): Packet {
 
         return result;
       }
+    // case 255:
+    //   return {
+    //     type: 
+    //   }
+    //   break;
     default:
       throw new Error("Unhandled packet tag: " + message.tag)
   }
@@ -414,7 +478,7 @@ export function readPacket(message: Message, fromClient: boolean): Packet {
 export function readAllPackets(message: Message, fromClient: boolean): Packet[] {
   const packets = [];
 
-  while (message.length > message.cursor) {
+  while (message.hasBytesLeft()) {
     packets.push(readPacket(message.readMessage(), fromClient));
   }
 
