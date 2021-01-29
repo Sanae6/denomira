@@ -1,4 +1,4 @@
-import Message from "../message.ts"
+import Message from "../util/message.ts";
 import DisconnectReason from "./disconnect.ts"
 import { Packet, readAllPackets, writeAllPackets } from "./packets.ts"
 
