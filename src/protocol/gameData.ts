@@ -18,10 +18,10 @@ export interface Data {
   data: Message
 }
 
-export interface RPC<T extends Rpc = Rpc> {
+export interface RPC {
   type: DataTypes.RPC,
   netId: number,
-  rpc: T
+  rpcData: Message
 }
 
 export interface Spawn {
@@ -65,7 +65,8 @@ export function readGameData(message: Message): GameData {
       return {
         type: DataTypes.RPC,
         netId: message.readUPacked(),
-        rpc: readRpc(message)
+        rpcData: new Message(message.readBytes())
+        // rpc: readRpc(message)
       }
     case DataTypes.SceneChange:
       return {
@@ -129,7 +130,8 @@ export function writeGameData(data: GameData): Message {
     case DataTypes.RPC:
       return message.startMessage(DataTypes.RPC)
         .writeUPacked(data.netId)
-        .writeBytes(writeRpc(data.rpc))
+        // .writeBytes(writeRpc(data.rpc))
+        .writeBytes(data.rpcData)
       .endMessage();
     case DataTypes.SceneChange:
       return message.startMessage(DataTypes.SceneChange)

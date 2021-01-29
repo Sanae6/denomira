@@ -433,5 +433,5 @@ export default class Message {
 
   get length(): number {
     return this.u8view.length;
-  } 
+  }
 }

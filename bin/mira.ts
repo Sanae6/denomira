@@ -113,4 +113,8 @@ server.on("connect", (connection) => {
   })
 });
 
+server.on("connect", (_c, ver) => {
+  console.log(ver.encode())
+})
+
 await server.listen();
