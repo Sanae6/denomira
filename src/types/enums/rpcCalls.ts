@@ -29,5 +29,5 @@ export enum RpcCalls {
   CloseDoorsOfType,
   RepairSystem,
   SetTasks,
-  UpdateGameData
+  UpdateGameData,
 }

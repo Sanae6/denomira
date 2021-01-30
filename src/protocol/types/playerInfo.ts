@@ -17,7 +17,7 @@ export interface TaskInfo {
 }
 
 export function readPlayerInfo(message: Message): PlayerInfo {
-  return  {
+  return {
     id: message.tag!,
     name: message.readString(),
     color: message.readU8(),
@@ -25,15 +25,14 @@ export function readPlayerInfo(message: Message): PlayerInfo {
     pet: message.readUPacked(),
     skin: message.readUPacked(),
     flags: message.readU8(),
-    tasks: message.readList(sub => {
+    tasks: message.readList((sub) => {
       return {
         id: sub.readUPacked(),
-        completed: sub.readBoolean()
+        completed: sub.readBoolean(),
       };
     }, false),
   };
 }
-
 
 export function writePlayerInfo(info: PlayerInfo): Message {
   return new Message().startMessage(info.id)
@@ -43,9 +42,9 @@ export function writePlayerInfo(info: PlayerInfo): Message {
     .writeUPacked(info.pet)
     .writeUPacked(info.skin)
     .writeU8(info.flags)
-    .writeList(info.tasks, task => new Message()
-      .writeUPacked(task.id)
-      .writeBoolean(task.completed)
-    , false)
-  .endMessage()
+    .writeList(info.tasks, (task) =>
+      new Message()
+        .writeUPacked(task.id)
+        .writeBoolean(task.completed), false)
+    .endMessage();
 }

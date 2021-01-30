@@ -1,4 +1,4 @@
 export enum SpawnFlags {
-    None,
-    IsClientCharacter
+  None,
+  IsClientCharacter,
 }
