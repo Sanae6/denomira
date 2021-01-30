@@ -1,3 +1,3 @@
-export { Client } from "./client/index.ts";
+export * from "./protocol/index.ts";
 
-export { Server } from "./server/index.ts";
+export * from "./types/index.ts";

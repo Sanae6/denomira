@@ -4,39 +4,7 @@
 // import { GameOptions, readGameOptions, writeGameOptions } from "./gameOptions.ts";
 // import { PlayerInfo, readPlayerInfo, writePlayerInfo } from "./playerInfo.ts";
 
-// enum RpcCalls {
-//   PlayAnimation,
-//   CompleteTask,
-//   SyncSettings,
-//   SetInfected,
-//   Exiled,
-//   CheckName,
-//   SetName,
-//   CheckColor,
-//   SetColor,
-//   SetHat,
-//   SetSkin,
-//   ReportDeadBody,
-//   MurderPlayer,
-//   SendChat,
-//   StartMeeting,
-//   SetScanner,
-//   SendChatNote,
-//   SetPet,
-//   SetStartCounter,
-//   EnterVent,
-//   ExitVent,
-//   SnapTo,
-//   Close,
-//   VotingComplete,
-//   CastVote,
-//   ClearVote,
-//   AddVote,
-//   CloseDoorsOfType,
-//   RepairSystem,
-//   SetTasks,
-//   UpdateGameData
-// }
+
 
 // export type Rpc = SyncSettings | CheckName | SetName | CheckColor | SetColor | SetHat | SetSkin | SetPet | SetStartCounter | CloseMeeting
 // | UpdateGameData;

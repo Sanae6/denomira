@@ -1,4 +1,4 @@
-import Message from "../util/message.ts";
+import Message from "../../util/message.ts";
 
 export interface PlayerInfo {
   id: number;

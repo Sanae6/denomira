@@ -1,4 +1,4 @@
-import Message from "../util/message.ts";
+import Message from "../../util/message.ts";
 
 export type GameOptions = GameOptionsV1 | GameOptionsV2 | GameOptionsV3 | GameOptionsV4
 

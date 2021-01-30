@@ -1,5 +1,5 @@
 import Message from "../util/message.ts";
-import DisconnectReason from "./disconnect.ts"
+import DisconnectReason from "../util/disconnect.ts"
 import { Packet, readAllPackets, writeAllPackets } from "./packets.ts"
 
 export enum SendOption {
