@@ -12,13 +12,13 @@ export enum Reasons {
   Custom = 8,
   InvalidName = 9,
   Hacking = 10,
-  
+
   Destroy = 16,
   Error = 17,
   IncorrectGame = 18,
   ServerRequest = 19,
   ServerFull = 20,
-  
+
   FocusLostBackground = 207,
   IntentionalLeaving = 208,
   FocusLost = 209,
@@ -28,19 +28,21 @@ export enum Reasons {
 export default class DisconnectReason {
   custom?: string;
   constructor(public reason: Reasons, custom?: string | Message) {
-    if (custom != undefined && reason == Reasons.Custom){
+    if (custom != undefined && reason == Reasons.Custom) {
       if (custom instanceof Message) {
         this.custom = custom.readString();
-      } else if (typeof(custom) == "string") {
+      } else if (typeof (custom) == "string") {
         this.custom = custom;
       }
     }
   }
-  
+
   static fromMessage(message: Message): DisconnectReason | undefined {
     if (message.length == message.cursor) return undefined;
     const reason = message.readU8();
-    if (reason == Reasons.Custom) return new DisconnectReason(reason, message.readString());
+    if (reason == Reasons.Custom) {
+      return new DisconnectReason(reason, message.readString());
+    }
     return new DisconnectReason(reason);
   }
 

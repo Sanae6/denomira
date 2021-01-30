@@ -4,8 +4,6 @@
 // import { GameOptions, readGameOptions, writeGameOptions } from "./gameOptions.ts";
 // import { PlayerInfo, readPlayerInfo, writePlayerInfo } from "./playerInfo.ts";
 
-
-
 // export type Rpc = SyncSettings | CheckName | SetName | CheckColor | SetColor | SetHat | SetSkin | SetPet | SetStartCounter | CloseMeeting
 // | UpdateGameData;
 

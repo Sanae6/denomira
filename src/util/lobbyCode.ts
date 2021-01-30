@@ -1,4 +1,4 @@
-import Message from "../util/message.ts";
+import Message from "../util/message";
 /**
  * The versions of lobby codes and their corresponding character length.
  */
@@ -11,7 +11,32 @@ export enum LobbyCodeVersion {
  * A mapping of characters to integers used when encoding V2 codes.
  */
 export const CHAR_MAP: number[] = [
-  25, 21, 19, 10, 8, 11, 12, 13, 22, 15, 16, 6, 24, 23, 18, 7, 0, 3, 9, 4, 14, 20, 1, 2, 5, 17,
+  25,
+  21,
+  19,
+  10,
+  8,
+  11,
+  12,
+  13,
+  22,
+  15,
+  16,
+  6,
+  24,
+  23,
+  18,
+  7,
+  0,
+  3,
+  9,
+  4,
+  14,
+  20,
+  1,
+  2,
+  5,
+  17,
 ];
 
 /**
@@ -69,7 +94,9 @@ export class LobbyCode {
       return LobbyCode.encodeV2(code);
     }
 
-    throw new TypeError(`Invalid lobby code, expected 4 or 6 characters: ${code}`);
+    throw new TypeError(
+      `Invalid lobby code, expected 4 or 6 characters: ${code}`,
+    );
   }
 
   /**

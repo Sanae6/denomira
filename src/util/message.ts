@@ -156,7 +156,7 @@ export default class Message {
     const len = this.readU16();
     const tag = this.readU8();
     const msg = new Message(
-      this.u8view.slice(this.cursor, this.cursor + len)
+      this.u8view.slice(this.cursor, this.cursor + len),
     );
 
     msg.tag = tag;
@@ -186,7 +186,7 @@ export default class Message {
   }
 
   writeBoolean(value: boolean): Message {
-    this.writeU8(value?1:0);
+    this.writeU8(value ? 1 : 0);
 
     return this;
   }
@@ -322,9 +322,9 @@ export default class Message {
   }
 
   writeAddress(value: string): Message {
-    const bytes = value.split(".").map(x => parseInt(x))
+    const bytes = value.split(".").map((x) => parseInt(x));
 
-    bytes.forEach(x => this.writeU8(x));
+    bytes.forEach((x) => this.writeU8(x));
 
     return this;
   }
@@ -400,7 +400,11 @@ export default class Message {
     return result;
   }
 
-  writeList<T>(value: T[], writer: (value: T) => Message, packed = true): Message {
+  writeList<T>(
+    value: T[],
+    writer: (value: T) => Message,
+    packed = true,
+  ): Message {
     this[packed ? "writeUPacked" : "writeU8"](value.length);
     for (const val of value) {
       const message = writer(val);
@@ -421,6 +425,10 @@ export default class Message {
   toString(): string {
     return ([...this.u8view]).map((val) => val.toString(16).padStart(2, "0"))
       .join(" ");
+  }
+
+  toUtfString(): string {
+    return new TextDecoder().decode(this.u8view);
   }
 
   toUint8Array(): Uint8Array {

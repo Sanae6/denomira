@@ -24,7 +24,8 @@ export class ClientVersion {
   }
 
   encode(): number {
-    return (this.year * 25000) + (this.month * 1800) + (this.day * 50) + this.revision;
+    return (this.year * 25000) + (this.month * 1800) + (this.day * 50) +
+      this.revision;
   }
 
   equals(otherVersion: ClientVersion): boolean {

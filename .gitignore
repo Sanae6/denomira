@@ -2,3 +2,4 @@ scripts.json
 .vscode/
 .idea/
 /temp/
+bin/listingMagic.ts

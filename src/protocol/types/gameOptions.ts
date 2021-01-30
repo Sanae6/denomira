@@ -1,45 +1,49 @@
 import Message from "../../util/message.ts";
 
-export type GameOptions = GameOptionsV1 | GameOptionsV2 | GameOptionsV3 | GameOptionsV4
+export type GameOptions =
+  | GameOptionsV1
+  | GameOptionsV2
+  | GameOptionsV3
+  | GameOptionsV4;
 
 export interface GameOptionsV1 {
-  version: 1 | number,
-  maxPlayers: number,
-  keywords: GameKeywords, //bitfield
-  map: GameMap,
-  playerSpeed: number,
-  crewmateVision: number,
-  impostorVision: number,
-  killCooldown: number,
-  commonTasks: number,
-  longTasks: number,
-  shortTasks: number,
-  emergencies: number,
-  maxImpostors: number,
-  killDistance: GameKillDistance,
-  discussionTime: number,
-  votingTime: number,
-  isDefaults: boolean,
+  version: 1 | number;
+  maxPlayers: number;
+  keywords: GameKeywords; //bitfield
+  map: GameMap;
+  playerSpeed: number;
+  crewmateVision: number;
+  impostorVision: number;
+  killCooldown: number;
+  commonTasks: number;
+  longTasks: number;
+  shortTasks: number;
+  emergencies: number;
+  maxImpostors: number;
+  killDistance: GameKillDistance;
+  discussionTime: number;
+  votingTime: number;
+  isDefaults: boolean;
 }
 
 export interface GameOptionsV2 extends GameOptionsV1 {
-  version: 2 | number,
-  emergencyCooldown: number,
+  version: 2 | number;
+  emergencyCooldown: number;
 }
 
 export interface GameOptionsV3 extends GameOptionsV2 {
-  version: 3 | number,
-  confirmEjects: boolean,
-  visualTasks: boolean,
+  version: 3 | number;
+  confirmEjects: boolean;
+  visualTasks: boolean;
 }
 
 export interface GameOptionsV4 extends GameOptionsV3 {
-  version: 4 | number,
-  emergencyCooldown: number,
-  confirmEjects: boolean,
-  visualTasks: boolean,
-  anonymousVoting: boolean,
-  taskbarUpdates: GameTaskbarUpdates
+  version: 4 | number;
+  emergencyCooldown: number;
+  confirmEjects: boolean;
+  visualTasks: boolean;
+  anonymousVoting: boolean;
+  taskbarUpdates: GameTaskbarUpdates;
 }
 
 export enum GameKeywords {
@@ -52,7 +56,7 @@ export enum GameKeywords {
   Arabic,
   Filipino,
   Polish,
-  English
+  English,
 }
 
 export enum GameMap {
@@ -64,13 +68,13 @@ export enum GameMap {
 export enum GameKillDistance {
   Short,
   Normal,
-  Long
+  Long,
 }
 
 export enum GameTaskbarUpdates {
   Always,
   Meetings,
-  Never
+  Never,
 }
 
 export function readGameOptions(message: Message): GameOptions {
@@ -95,8 +99,8 @@ export function readGameOptions(message: Message): GameOptions {
     killDistance: message.readU8(),
     discussionTime: message.readU32(),
     votingTime: message.readU32(),
-    isDefaults: message.readBoolean()
-  }
+    isDefaults: message.readBoolean(),
+  };
 
   if (result.version >= 2) {
     (result as GameOptionsV2).emergencyCooldown = message.readU8();
@@ -126,7 +130,7 @@ export function writeGameOptions(options: GameOptions): Message {
   message.writeU8(options.commonTasks);
   message.writeU8(options.longTasks);
   message.writeU8(options.shortTasks);
-  message.writeU32(options.emergencies)
+  message.writeU32(options.emergencies);
   message.writeU8(options.maxImpostors);
   message.writeU8(options.killDistance);
   message.writeU32(options.discussionTime);
