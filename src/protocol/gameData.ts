@@ -66,7 +66,6 @@ export function readGameData(message: Message): GameData {
         type: DataTypes.RPC,
         netId: message.readUPacked(),
         rpcData: new Message(message.readBytes())
-        // rpc: readRpc(message)
       }
     case DataTypes.SceneChange:
       return {

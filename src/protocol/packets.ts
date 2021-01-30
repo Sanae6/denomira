@@ -1,8 +1,11 @@
 import { GameData, readGameData, writeGameData } from "./gameData.ts";
-import { GameMap, GameOptions, readGameOptions, writeGameOptions } from "./gameOptions.ts";
+import { GameMap, GameOptions, readGameOptions, writeGameOptions } from "./types/gameOptions.ts";
 import Message from "../util/message.ts";
-import DisconnectReason, { Reasons } from "./disconnect.ts";
-import { AlterGameTag, GameListing, GameListingOld, GameOverReason, MasterServer } from "./extraTypes.ts";
+import DisconnectReason, { Reasons } from "../util/disconnect.ts";
+import { GameOverReason } from "../types/enums/gameOverReason.ts";
+import {GameListing, GameListingOld} from "../types/interfaces/gameListing.ts";
+import {AlterGameTag} from "../types/enums/alterGame.ts";
+import {MasterServer} from "../types/interfaces/masterServer.ts";
 
 export enum Packets {
   HostGameRequest,
@@ -49,7 +52,7 @@ export type Packet =| HostGameRequest
           | GetGameListRequest
           | GetGameListResponse;
 
-interface RoomPacket { 
+export interface IRoomPacket {
   type: Packets,
   code: number
 }
@@ -59,17 +62,17 @@ export interface HostGameRequest {
   options: GameOptions
 }
 
-export interface HostGameResponse extends RoomPacket {
+export interface HostGameResponse extends IRoomPacket {
   type: Packets.HostGameResponse,
   code: number
 }
 
-export interface JoinGameRequest extends RoomPacket {
+export interface JoinGameRequest extends IRoomPacket {
   type: Packets.JoinGameRequest,
   ownedMaps: GameMap
 }
 
-export interface JoinGameResponse extends RoomPacket {
+export interface JoinGameResponse extends IRoomPacket {
   type: Packets.JoinGameResponse,
   clientId: number,
   hostId: number
@@ -80,7 +83,7 @@ export interface JoinGameError {
   reason: DisconnectReason
 }
 
-export interface StartGame extends RoomPacket {
+export interface StartGame extends IRoomPacket {
   type: Packets.StartGame
 }
 
@@ -89,26 +92,26 @@ export interface RemoveGame {
   reason?: DisconnectReason
 }
 
-export interface RemovePlayer extends RoomPacket {
+export interface RemovePlayer extends IRoomPacket {
   type: Packets.RemovePlayer,
   clientId: number,
   reason?: DisconnectReason
 }
 
-export interface GameDataPacket extends RoomPacket {
+export interface GameDataPacket extends IRoomPacket {
   type: Packets.GameDataAll | Packets.GameDataTo,
   toClient?: number,
   gameData: GameData[]
 }
 
-export interface JoinedGame extends RoomPacket {
+export interface JoinedGame extends IRoomPacket {
   type: Packets.JoinedGame,
   clientId: number,
   hostId: number,
   otherIds: number[]
 }
 
-export interface EndGame extends RoomPacket {
+export interface EndGame extends IRoomPacket {
   type: Packets.EndGame,
   reason: GameOverReason,
   showAd: boolean
@@ -131,20 +134,20 @@ export interface GetGameListOldResponse {
   listings: GameListingOld[]
 }
 
-export interface AlterGame extends RoomPacket {
+export interface AlterGame extends IRoomPacket {
   type: Packets.AlterGame,
   tag: AlterGameTag,
   value: number
 }
 
-export interface KickPlayer extends RoomPacket {
+export interface KickPlayer extends IRoomPacket {
   type: Packets.KickPlayer,
   clientId: number,
   banned: boolean,
   reason?: DisconnectReason
 }
 
-export interface WaitForHost extends RoomPacket {
+export interface WaitForHost extends IRoomPacket {
   type: Packets.WaitForHost,
   clientId: number
 }
@@ -176,7 +179,7 @@ export interface GetGameListResponse {
 /**
  * Writes a packet that is sent by the server to a client.
  * Request packets with the same tag as a response packet will not be written.
- * @param {Message} message 
+ * @param packet {Packet}
  */
 
 export function writePacket(packet: Packet): Message {
