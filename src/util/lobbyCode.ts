@@ -1,4 +1,4 @@
-import Message from "../util/message";
+import Message from "../util/message.ts";
 /**
  * The versions of lobby codes and their corresponding character length.
  */
