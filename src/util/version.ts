@@ -1,4 +1,6 @@
-//rewrite this to not be stolen from NodePolus' rewrite, or don't (i don't actually care enough)
+/*
+ * This class has been taken from NodePolus. (rewrite)
+ */
 
 export class ClientVersion {
   constructor(

@@ -51,7 +51,7 @@ export default class DisconnectReason {
 
     if (useU32) message.writeU32(this.reason);
     else message.writeU8(this.reason);
-    if (this.reason == Reasons.Custom) message.writeString(this.custom!);
+    if (this.reason == Reasons.Custom) message.writeString(this.custom ?? "");
 
     return message;
   }

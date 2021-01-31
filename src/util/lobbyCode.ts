@@ -1,4 +1,9 @@
 import Message from "../util/message.ts";
+
+/*
+ * This class has been taken from NodePolus (rewrite) and slightly modified to be used in denomira.
+ */
+
 /**
  * The versions of lobby codes and their corresponding character length.
  */
