@@ -1,5 +1,4 @@
 import Message from "../util/message.ts";
-// import { readRpc, Rpc, writeRpc } from "./gameRpc";
 
 export enum GameDataType {
   Data = 1,
@@ -143,7 +142,5 @@ export function writeGameData(data: GameData): Message {
       return message.startMessage(GameDataType.Ready)
         .writeUPacked(data.clientId)
         .endMessage();
-      // default:
-      //   throw new Error("Unhandled GameData type: " + DataTypes[data.type])
   }
 }
