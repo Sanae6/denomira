@@ -21,12 +21,13 @@ export interface Data {
 export interface RPC {
   type: GameDataType.RPC;
   netId: number;
+  callId: number
   rpcData: Message;
 }
 
 export interface Spawn {
   type: GameDataType.Spawn;
-  spawnType: number; //TODO SpawnType
+  spawnType: number;
   ownerId: number;
   flags: number;
   components: Component[];
@@ -65,6 +66,7 @@ export function readGameData(message: Message): GameData {
       return {
         type: GameDataType.RPC,
         netId: message.readUPacked(),
+        callId: message.readU8(),
         rpcData: new Message(message.readBytes()),
       };
     case GameDataType.SceneChange:
@@ -129,7 +131,7 @@ export function writeGameData(data: GameData): Message {
     case GameDataType.RPC:
       return message.startMessage(GameDataType.RPC)
         .writeUPacked(data.netId)
-        // .writeBytes(writeRpc(data.rpc))
+        .writeU8(data.callId)
         .writeBytes(data.rpcData)
         .endMessage();
     case GameDataType.SceneChange:
