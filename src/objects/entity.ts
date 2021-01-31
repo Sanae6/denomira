@@ -1,15 +1,12 @@
-import { Component } from "./component";
-import Message from "../util/message";
-import { SpawnFlags } from "../types/enums/spawnFlags";
+import { Component } from "./component.ts";
 
-export abstract class Entity {
+/**
+ * Entities aren't ready for use yet, implement these yourself
+ */
+export abstract class Entity<T = number> {
   constructor(
-    public flags: SpawnFlags,
+    public flags: T,
     public owner: number = -2,
     public components: Component[],
-  ) {
-  }
-
-  abstract serialize(spawn: boolean): Message;
-  abstract deserialize(spawn: boolean, message: Message): void;
+  ) {}
 }
