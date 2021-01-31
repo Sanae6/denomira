@@ -1,7 +1,7 @@
 import Message from "../util/message.ts";
 // import { readRpc, Rpc, writeRpc } from "./gameRpc";
 
-enum DataTypes {
+export enum GameDataType {
   Data = 1,
   RPC = 2,
   Spawn = 4,
@@ -13,19 +13,19 @@ enum DataTypes {
 export type GameData = Data | RPC | Spawn | Despawn | SceneChange | Ready;
 
 export interface Data {
-  type: DataTypes.Data;
+  type: GameDataType.Data;
   netId: number;
   data: Message;
 }
 
 export interface RPC {
-  type: DataTypes.RPC;
+  type: GameDataType.RPC;
   netId: number;
   rpcData: Message;
 }
 
 export interface Spawn {
-  type: DataTypes.Spawn;
+  type: GameDataType.Spawn;
   spawnType: number; //TODO SpawnType
   ownerId: number;
   flags: number;
@@ -33,18 +33,18 @@ export interface Spawn {
 }
 
 export interface Despawn {
-  type: DataTypes.Despawn;
+  type: GameDataType.Despawn;
   netId: number;
 }
 
 export interface SceneChange {
-  type: DataTypes.SceneChange;
+  type: GameDataType.SceneChange;
   clientId: number;
   scene: string;
 }
 
 export interface Ready {
-  type: DataTypes.Ready;
+  type: GameDataType.Ready;
   clientId: number;
 }
 
@@ -55,27 +55,27 @@ export interface Component {
 
 export function readGameData(message: Message): GameData {
   switch (message.tag) {
-    case DataTypes.Data:
+    case GameDataType.Data:
       return {
-        type: DataTypes.Data,
+        type: GameDataType.Data,
         netId: message.readUPacked(),
         data: new Message(message.readBytes()),
       };
-    case DataTypes.RPC:
+    case GameDataType.RPC:
       return {
-        type: DataTypes.RPC,
+        type: GameDataType.RPC,
         netId: message.readUPacked(),
         rpcData: new Message(message.readBytes()),
       };
-    case DataTypes.SceneChange:
+    case GameDataType.SceneChange:
       return {
-        type: DataTypes.SceneChange,
+        type: GameDataType.SceneChange,
         clientId: message.readUPacked(),
         scene: message.readString(),
       };
-    case DataTypes.Spawn:
+    case GameDataType.Spawn:
       return {
-        type: DataTypes.Spawn,
+        type: GameDataType.Spawn,
         spawnType: message.readUPacked(),
         ownerId: message.readPacked(),
         flags: message.readU8(),
@@ -86,14 +86,14 @@ export function readGameData(message: Message): GameData {
           };
         }),
       };
-    case DataTypes.Ready:
+    case GameDataType.Ready:
       return {
-        type: DataTypes.Ready,
+        type: GameDataType.Ready,
         clientId: message.readUPacked(),
       };
-    case DataTypes.Despawn:
+    case GameDataType.Despawn:
       return {
-        type: DataTypes.Despawn,
+        type: GameDataType.Despawn,
         netId: message.readUPacked(),
       };
     default:
@@ -104,17 +104,17 @@ export function readGameData(message: Message): GameData {
 export function writeGameData(data: GameData): Message {
   const message = new Message();
   switch (data.type) {
-    case DataTypes.Data:
-      return message.startMessage(DataTypes.Data)
+    case GameDataType.Data:
+      return message.startMessage(GameDataType.Data)
         .writeUPacked(data.netId)
         .writeBytes(data.data)
         .endMessage();
-    case DataTypes.Despawn:
-      return message.startMessage(DataTypes.Despawn)
+    case GameDataType.Despawn:
+      return message.startMessage(GameDataType.Despawn)
         .writeUPacked(data.netId)
         .endMessage();
-    case DataTypes.Spawn:
-      return message.startMessage(DataTypes.Spawn)
+    case GameDataType.Spawn:
+      return message.startMessage(GameDataType.Spawn)
         .writeUPacked(data.spawnType)
         .writePacked(data.ownerId)
         .writeU8(data.flags)
@@ -126,19 +126,19 @@ export function writeGameData(data: GameData): Message {
             .endMessage();
         })
         .endMessage();
-    case DataTypes.RPC:
-      return message.startMessage(DataTypes.RPC)
+    case GameDataType.RPC:
+      return message.startMessage(GameDataType.RPC)
         .writeUPacked(data.netId)
         // .writeBytes(writeRpc(data.rpc))
         .writeBytes(data.rpcData)
         .endMessage();
-    case DataTypes.SceneChange:
-      return message.startMessage(DataTypes.SceneChange)
+    case GameDataType.SceneChange:
+      return message.startMessage(GameDataType.SceneChange)
         .writeUPacked(data.clientId)
         .writeString(data.scene)
         .endMessage();
-    case DataTypes.Ready:
-      return message.startMessage(DataTypes.Ready)
+    case GameDataType.Ready:
+      return message.startMessage(GameDataType.Ready)
         .writeUPacked(data.clientId)
         .endMessage();
       // default:
